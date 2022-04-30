@@ -69,6 +69,9 @@ def run_sieve(limit):
 
 
 def get_possible_number(bits, primes):
+    """ Get n-bits random number to be tested by rabin-miller
+        Performs basic pre-checks of primality
+    """
 
     while True:
         number = random.getrandbits(bits) + 1
