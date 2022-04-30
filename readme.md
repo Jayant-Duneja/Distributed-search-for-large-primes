@@ -10,5 +10,6 @@ optional arguments:
   --starting_number STARTING_NUMBER
                         starting number to look for primes
   --k K                 interations count of rabin-miller. Approx probability of failing = 1/(2^(2k))
+  --bit_step BIT_STEP   Bit steps to take after successfully finding one prime
   --n_procs N_PROCS     number of worker processes
 ```
