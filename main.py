@@ -89,7 +89,7 @@ def get_possible_number(bits, primes):
     return number
 
 
-def run_server(starting_number, k, n_procs, excess_numbers=3, sieve_limit=1000):
+def run_server(starting_number, k, n_procs, bit_step,excess_numbers=3, sieve_limit=1000):
     """ Server process to initiate the workers and queues.
         starting_number -> start testing for primes from this number
         k -> number of times to run rabin-miller
@@ -125,7 +125,7 @@ def run_server(starting_number, k, n_procs, excess_numbers=3, sieve_limit=1000):
             # if found new prime, increase the bits of numbers to test
             if result != -1 and result > max_prime:
                 max_prime = result
-                bit_length = max_prime.bit_length() + 1
+                bit_length = max_prime.bit_length() + bit_step
                 print(f"Found bigger prime: {max_prime}")
 
             job_queue.put(get_possible_number(bit_length, initial_primes))
@@ -143,7 +143,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--starting_number', type=int, default=1, help="starting number to look for primes")
     parser.add_argument('--k', type=int, default=128, help="interations count of rabin-miller. Approx probability of failing = 1/(2^(2k))")
+    parser.add_argument('--bit_step', type=int, default=1, help="Bit steps to take after successfully finding one prime")
     parser.add_argument('--n_procs', type=int, default=multiprocessing.cpu_count()-1, help='number of worker processes')
     args = parser.parse_args()
 
-    run_server(args.starting_number, args.k, args.n_procs)
+    run_server(args.starting_number, args.k, args.n_procs, args.bit_step)
